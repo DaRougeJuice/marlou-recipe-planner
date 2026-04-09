@@ -19,11 +19,16 @@
       No recipes found. Try a different ingredient!
     </p>
 
-    <div class="grid grid-cols-3 gap-4">
-      <div v-for="recipe in recipes" :key="recipe.idMeal" class="border rounded p-4">
+     <div class="grid grid-cols-3 gap-4">
+      <RouterLink
+        v-for="recipe in recipes"
+        :key="recipe.idMeal"
+        :to="`/recipe/${recipe.idMeal}`"
+        class="border rounded p-4 block"
+      >
         <img :src="recipe.strMealThumb" class="w-full rounded mb-2" />
         <h2 class="font-bold text-lg">{{ recipe.strMeal }}</h2>
-      </div>
+      </RouterLink>
     </div>
   </div>
 </template>
