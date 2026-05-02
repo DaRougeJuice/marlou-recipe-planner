@@ -32,7 +32,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from '../axios.js'
-import { setUser } from '../stores/auth.js'
+import { setUser } from '../store/auth.js'
 
 const router = useRouter()
 const isLogin = ref(true)
@@ -52,7 +52,7 @@ async function submit() {
     const res = await axios.post(url, body)
     if (res.data.token) {
       localStorage.setItem('token', res.data.token)
-      setUser(res.data.user)
+      setUser(res.data.user, res.data.token)
       router.push('/')
     }
   } catch (e) {

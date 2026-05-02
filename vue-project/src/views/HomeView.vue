@@ -1,99 +1,213 @@
 <template>
-  <div>
+  <div class="bg-gradient-to-b from-[#0f130f] via-[#111411] to-black text-white">
+
     <!-- Hero Section -->
-    <div class="relative h-screen flex items-center justify-center overflow-hidden">
+    <section class="relative h-screen flex items-center overflow-hidden">
+
+      <!-- Background Image -->
       <div class="absolute inset-0 z-0">
         <img
           src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1600&auto=format&fit=crop"
-          class="w-full h-full object-cover object-center"
-          alt="Fresh healthy food"
+          class="w-full h-full object-cover scale-105"
         />
-        <div class="absolute inset-0" style="background: rgba(20,26,20,0.75);"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-transparent"></div>
       </div>
 
-      <div class="relative z-10 text-center max-w-3xl px-8">
-        <p class="text-green-400 text-xs font-semibold tracking-widest uppercase mb-4">Your personal kitchen assistant</p>
-        <h1 class="text-6xl font-extrabold leading-tight mb-6 drop-shadow-lg">
-          Find recipes<br>with
-          <span class="text-green-400"> what<br>you have.</span>
-        </h1>
-        <p class="text-gray-200 text-xl mb-12 drop-shadow">
-          Add your ingredients, filter out allergens, and discover meals you can actually cook tonight.
-        </p>
-        <div class="flex flex-col items-center gap-4">
-          <RouterLink
-            to="/search"
-            class="bg-green-400 hover:bg-green-300 text-green-950 font-bold px-16 py-5 rounded-full text-lg transition shadow-lg shadow-green-900/40 w-72 text-center"
-          >
-            Search Recipes →
-          </RouterLink>
-          <RouterLink
-            to="/meal-plan"
-            class="bg-white/10 backdrop-blur border border-white/30 hover:bg-white/20 text-white font-semibold px-16 py-5 rounded-full text-lg transition w-72 text-center"
-          >
-            View Meal Plan
-          </RouterLink>
-        </div>
-      </div>
-    </div>
+      <!-- Content -->
+      <div class="relative z-10 w-full max-w-7xl mx-auto px-8 grid md:grid-cols-2 gap-12 items-center">
 
-    <!-- Carousel Section -->
-    <div class="py-14">
-      <div class="flex items-center justify-between mb-10 px-16">
-        <div>
-          <h2 class="text-2xl font-bold">Suggested Recipes</h2>
-          <p class="text-gray-500 text-sm mt-1">Randomly picked for you today</p>
-        </div>
-        <button @click="init" class="text-xs text-gray-400 hover:text-white transition px-3 py-1.5 border border-white/10 rounded-full hover:border-white/30">↻ Refresh</button>
-      </div>
+        <!-- LEFT -->
+        <div class="space-y-6">
+          <p class="text-green-400 text-xs tracking-[0.3em] uppercase font-semibold">
+            Smart cooking starts here
+          </p>
 
-      <p v-if="loading" class="text-gray-500 text-sm px-16">Loading suggestions...</p>
+          <h1 class="text-5xl md:text-6xl font-extrabold leading-tight">
+            Cook amazing meals<br>
+            using <span class="text-green-400">ingredients at home</span>
+          </h1>
 
-      <div v-else ref="trackWrapper" class="overflow-hidden">
-        <div
-          class="flex gap-6 px-16"
-          :style="{ transform: `translateX(${offset}px)`, transition: animating ? 'transform 0.6s ease-in-out' : 'none' }"
-        >
-          <div
-            v-for="meal in carousel"
-            :key="meal.idMeal"
-            class="flex-shrink-0 bg-[#1e241e] rounded-3xl overflow-hidden shadow-lg group"
-            style="width: 260px;"
-          >
-            <div class="flex justify-center pt-8 pb-4">
-              <div class="w-40 h-40 rounded-full overflow-hidden shadow-xl border-4 border-white/5">
-                <RouterLink :to="`/recipe/${meal.idMeal}`">
-                  <img :src="meal.strMealThumb" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
-                </RouterLink>
-              </div>
-            </div>
-            <div class="text-center px-5 pb-6">
-              <RouterLink :to="`/recipe/${meal.idMeal}`">
-                <p class="font-bold text-sm leading-snug mb-1 hover:text-green-400 transition">{{ meal.strMeal }}</p>
-              </RouterLink>
-              <p class="text-xs text-gray-500 mb-4">{{ meal.strCategory }}</p>
-              <div class="border-t border-white/5 pt-3 flex justify-center gap-4">
-                <button
-                  @click="favorite(meal)"
-                  :class="favoritedIds.includes(meal.idMeal) ? 'text-red-400' : 'text-gray-500 hover:text-red-400'"
-                  class="text-xs transition"
-                >
-                  {{ favoritedIds.includes(meal.idMeal) ? '❤️ Saved' : '🤍 Save' }}
-                </button>
-                <span class="text-gray-700 text-xs">|</span>
-                <button
-                  @click="addToMealPlan(meal)"
-                  :class="mealPlanIds.includes(meal.idMeal) ? 'text-green-400' : 'text-gray-500 hover:text-green-400'"
-                  class="text-xs transition"
-                >
-                  {{ mealPlanIds.includes(meal.idMeal) ? '✓ In Plan' : '+ Meal Plan' }}
-                </button>
-              </div>
-            </div>
+          <p class="text-gray-300 text-lg max-w-md">
+            Discover recipes instantly, save favorites, and build your meal prep in one place.
+          </p>
+
+          <div class="flex flex-wrap gap-4">
+            <RouterLink
+              to="/search"
+              class="bg-green-400 hover:bg-green-300 text-green-950 font-semibold px-7 py-3 rounded-full transition hover:scale-105 shadow-xl"
+            >
+              Explore Recipes
+            </RouterLink>
+
+            <RouterLink
+              to="/meal-plan"
+              class="bg-white/10 backdrop-blur border border-white/10 hover:bg-white/20 px-7 py-3 rounded-full transition hover:scale-105"
+            >
+              My Meal Plan
+            </RouterLink>
           </div>
         </div>
+
+        <!-- RIGHT HERO CARD -->
+        <div class="flex justify-center">
+
+          <div class="relative w-80">
+
+            <!-- Glow -->
+            <div class="absolute -inset-2 bg-green-500/20 blur-3xl rounded-[2rem]"></div>
+
+            <!-- Loading -->
+            <div
+              v-if="heroLoading"
+              class="relative h-[500px] rounded-[2rem] bg-white/5 border border-white/10 flex items-center justify-center"
+            >
+              <p class="text-gray-400 text-sm">Loading recipe...</p>
+            </div>
+
+            <!-- Meal Card -->
+            <div
+              v-else-if="heroMeal"
+              class="relative bg-[#1a1f1a]/90 backdrop-blur-xl rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl transition duration-500 hover:-translate-y-1 hover:border-green-400/30"
+            >
+
+              <!-- Image -->
+              <RouterLink :to="`/recipe/${heroMeal.idMeal}`">
+                <div class="overflow-hidden">
+                  <img
+                    :src="heroMeal.strMealThumb"
+                    class="w-full h-64 object-cover transition duration-700 hover:scale-110"
+                    :class="transitioning ? 'opacity-0' : 'opacity-100'"
+                  />
+                </div>
+              </RouterLink>
+
+              <!-- Content -->
+              <div class="p-6">
+
+                <div class="flex items-center justify-between mb-3">
+                  <span class="text-[11px] uppercase tracking-widest text-green-400">
+                    {{ heroMeal.strCategory }}
+                  </span>
+
+                  <span class="text-[11px] text-gray-500">
+                    {{ heroMeal.strArea }}
+                  </span>
+                </div>
+
+                <RouterLink :to="`/recipe/${heroMeal.idMeal}`">
+                  <h2 class="text-2xl font-bold leading-snug hover:text-green-400 transition cursor-pointer">
+                    {{ heroMeal.strMeal }}
+                  </h2>
+                </RouterLink>
+
+                <p class="text-sm text-gray-400 mt-3 line-clamp-2">
+                  Fresh recipe inspiration tailored for tonight’s cooking session.
+                </p>
+
+                <!-- Actions -->
+                <div class="flex gap-3 mt-6">
+
+                  <button
+                    @click="addToMealPlan(heroMeal)"
+                    class="flex-1 bg-green-400 hover:bg-green-300 text-green-950 font-semibold py-3 rounded-2xl transition hover:scale-[1.02]"
+                  >
+                    Add to Meal Plan
+                  </button>
+
+                  <button
+                    @click="toggleFavorite(heroMeal)"
+                    class="w-14 rounded-2xl bg-white/10 hover:bg-white/20 border border-white/10 transition"
+                  >
+                    <span v-if="favoritedIds.includes(heroMeal.idMeal)">
+                      ❤️
+                    </span>
+                    <span v-else>
+                      🤍
+                    </span>
+                  </button>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Timer -->
+            <div class="flex justify-center gap-2 mt-5">
+              <div
+                v-for="i in 5"
+                :key="i"
+                class="h-1 rounded-full transition-all duration-300"
+                :class="i === timerDot
+                  ? 'w-8 bg-green-400 shadow-lg shadow-green-400/40'
+                  : 'w-2 bg-white/20'"
+              ></div>
+            </div>
+
+          </div>
+
+        </div>
       </div>
-    </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative border-t border-white/10 mt-24">
+
+      <div class="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-green-400 to-transparent"></div>
+
+      <div class="max-w-7xl mx-auto px-8 py-14 grid md:grid-cols-4 gap-10">
+
+        <div>
+          <h2 class="text-2xl font-bold mb-3">MealPlan</h2>
+          <p class="text-sm text-gray-400 leading-relaxed">
+            Recipe discovery and meal prep designed for modern cooking.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="font-semibold mb-4">Navigation</h3>
+
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li>
+              <RouterLink to="/search" class="hover:text-green-400 transition">
+                Recipes
+              </RouterLink>
+            </li>
+
+            <li>
+              <RouterLink to="/meal-plan" class="hover:text-green-400 transition">
+                Meal Plan
+              </RouterLink>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-semibold mb-4">Support</h3>
+
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li><a href="#" class="hover:text-green-400 transition">Help Center</a></li>
+            <li><a href="#" class="hover:text-green-400 transition">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-green-400 transition">Terms</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="font-semibold mb-4">Connect</h3>
+
+          <div class="flex gap-4 text-xl">
+            <a href="#" class="hover:scale-110 hover:text-green-400 transition">🌐</a>
+            <a href="#" class="hover:scale-110 hover:text-green-400 transition">📘</a>
+            <a href="#" class="hover:scale-110 hover:text-green-400 transition">🐦</a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="text-center text-xs text-gray-600 pb-6">
+        © 2026 MealPlan. All rights reserved.
+      </div>
+
+    </footer>
+
   </div>
 </template>
 
@@ -101,97 +215,87 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import axios from '../axios.js'
 
-const carousel = ref([])
-const loading = ref(true)
+const heroMeal = ref(null)
+const heroLoading = ref(true)
+const transitioning = ref(false)
+const timerDot = ref(1)
 const favoritedIds = ref([])
-const mealPlanIds = ref([])
-const offset = ref(0)
-const animating = ref(false)
-const seenIds = ref(new Set())
-const trackWrapper = ref(null)
-const CARD_WIDTH = 260 + 24
-let autoScrollInterval = null
 
-async function fetchOne() {
-  let meal = null
-  let attempts = 0
-  while (attempts < 5) {
-    const res = await fetch('https://www.themealdb.com/api/json/v1/1/random.php')
-    const data = await res.json()
-    const candidate = data.meals[0]
-    if (!seenIds.value.has(candidate.idMeal)) {
-      seenIds.value.add(candidate.idMeal)
-      meal = candidate
-      break
-    }
-    attempts++
+let heroInterval = null
+let dotInterval = null
+
+async function fetchRandom() {
+  const res = await fetch('https://www.themealdb.com/api/json/v1/1/random.php')
+  const data = await res.json()
+  return data.meals[0]
+}
+
+function addToMealPlan(meal) {
+  const existing = JSON.parse(localStorage.getItem('mealPlan') || '[]')
+
+  const alreadyExists = existing.find(m => m.idMeal === meal.idMeal)
+
+  if (!alreadyExists) {
+    existing.push(meal)
+    localStorage.setItem('mealPlan', JSON.stringify(existing))
+    alert('Added to meal plan!')
+  } else {
+    alert('Meal already added!')
   }
-  return meal
 }
 
-async function init() {
-  loading.value = true
-  carousel.value = []
-  offset.value = 0
-  animating.value = false
-  seenIds.value = new Set()
-  clearInterval(autoScrollInterval)
-
-  const results = []
-  for (let i = 0; i < 8; i++) {
-    const meal = await fetchOne()
-    if (meal) results.push(meal)
-  }
-  carousel.value = results
-  loading.value = false
-  autoScrollInterval = setInterval(tick, 3000)
-}
-
-async function tick() {
-  const newMeal = await fetchOne()
-  if (!newMeal) return
-  carousel.value.push(newMeal)
-
-  animating.value = true
-  offset.value -= CARD_WIDTH
-
-  setTimeout(() => {
-    carousel.value.shift()
-    animating.value = false
-    offset.value += CARD_WIDTH
-  }, 650)
-}
-
-onMounted(init)
-onUnmounted(() => clearInterval(autoScrollInterval))
-
-async function favorite(meal) {
+async function toggleFavorite(meal) {
   if (favoritedIds.value.includes(meal.idMeal)) return
+
   try {
     await axios.post('/api/favorites', {
       meal_id: meal.idMeal,
       meal_name: meal.strMeal,
       meal_thumb: meal.strMealThumb,
     })
+
     favoritedIds.value.push(meal.idMeal)
   } catch (e) {
-    if (e.response?.status === 409) favoritedIds.value.push(meal.idMeal)
-    else alert('Log in to save favorites!')
+    if (e.response?.status === 409) {
+      favoritedIds.value.push(meal.idMeal)
+    } else {
+      alert('Please log in first!')
+    }
   }
 }
 
-function addToMealPlan(meal) {
-  if (mealPlanIds.value.includes(meal.idMeal)) return
-  const existing = JSON.parse(localStorage.getItem('mealPlan') || '[]')
-  existing.push({
-    idMeal: meal.idMeal,
-    strMeal: meal.strMeal,
-    strMealThumb: meal.strMealThumb,
-    strCategory: meal.strCategory,
-    ingredients: [],
-    macros: null,
-  })
-  localStorage.setItem('mealPlan', JSON.stringify(existing))
-  mealPlanIds.value.push(meal.idMeal)
+async function refreshHero() {
+  transitioning.value = true
+
+  await new Promise(r => setTimeout(r, 400))
+
+  heroMeal.value = await fetchRandom()
+
+  transitioning.value = false
+  timerDot.value = 1
 }
+
+async function initHero() {
+  heroLoading.value = true
+
+  heroMeal.value = await fetchRandom()
+
+  heroLoading.value = false
+
+  let count = 1
+
+  dotInterval = setInterval(() => {
+    count = count === 5 ? 1 : count + 1
+    timerDot.value = count
+  }, 2000)
+
+  heroInterval = setInterval(refreshHero, 10000)
+}
+
+onMounted(initHero)
+
+onUnmounted(() => {
+  clearInterval(heroInterval)
+  clearInterval(dotInterval)
+})
 </script>

@@ -49,6 +49,14 @@
             >
               📋 Meal Plan
             </RouterLink>
+            <RouterLink
+              v-if="currentUser.role === 'admin'"
+              to="/admin"
+              @click="dropdownOpen = false"
+              class="block px-4 py-3 text-sm text-green-400 hover:text-green-300 hover:bg-white/5 transition"
+            >
+              ⚙️ Admin Panel
+            </RouterLink>
             <div class="border-t border-white/10"></div>
             <button
               @click="logout"
@@ -70,7 +78,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from './axios.js'
-import { currentUser, clearUser } from './stores/auth.js'
+import { currentUser, clearUser } from './store/auth.js'
 
 const router = useRouter()
 const dropdownOpen = ref(false)
