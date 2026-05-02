@@ -9,25 +9,18 @@ class FavoriteController extends Controller
 {
     public function index(Request $request)
     {
-        $favorites = Favorite::where('user_id', $request->user()->id)->get();
-        return response()->json($favorites);
+        return response()->json(
+            Favorite::where('user_id', $request->user()->id)->get()
+        );
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'meal_id'    => 'required|string',
-            'meal_name'  => 'required|string',
-            'meal_thumb' => 'required|string',
-        ]);
-
         $exists = Favorite::where('user_id', $request->user()->id)
             ->where('meal_id', $request->meal_id)
             ->first();
 
-        if ($exists) {
-            return response()->json(['message' => 'Already saved'], 409);
-        }
+        if ($exists) return response()->json($exists, 409);
 
         $favorite = Favorite::create([
             'user_id'    => $request->user()->id,
@@ -39,10 +32,10 @@ class FavoriteController extends Controller
         return response()->json($favorite, 201);
     }
 
-    public function destroy(Request $request, $mealId)
+    public function destroy(Request $request, $id)
     {
         Favorite::where('user_id', $request->user()->id)
-            ->where('meal_id', $mealId)
+            ->where('id', $id)
             ->delete();
 
         return response()->json(['message' => 'Removed']);
