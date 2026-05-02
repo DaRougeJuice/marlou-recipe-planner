@@ -20,4 +20,4 @@ RUN a2enmod rewrite
 
 EXPOSE 10000
 
-CMD php artisan config:cache && php artisan migrate --force && apache2-foreground
+CMD php artisan config:cache && php artisan migrate:fresh --force && apache2-foreground
